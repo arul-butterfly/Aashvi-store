@@ -1,0 +1,1357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel | AASHVI Fashion</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      font-family: 'Poppins', sans-serif;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .admin-container { max-width: 1600px; margin: 0 auto; }
+
+    .admin-header {
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      margin-bottom: 30px;
+      box-shadow: 0 10px 40px rgba(0,0,0,0.1);
+    }
+
+    .admin-header h1 {
+      color: #667eea;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .admin-nav {
+      background: white;
+      padding: 0;
+      border-radius: 15px;
+      margin-bottom: 30px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+    }
+
+    .admin-nav .nav-tabs {
+      border: none;
+      display: flex;
+      margin: 0;
+    }
+
+    .admin-nav .nav-link {
+      border: none;
+      padding: 20px 30px;
+      color: #667eea;
+      font-weight: 600;
+      flex: 1;
+      text-align: center;
+      transition: all 0.3s;
+      border-radius: 0;
+    }
+
+    .admin-nav .nav-link:hover {
+      background: #f8f9ff;
+    }
+
+    .admin-nav .nav-link.active {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+    }
+
+    .admin-nav .nav-link i {
+      font-size: 1.2rem;
+      margin-right: 10px;
+    }
+
+    .card {
+      border: none;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      margin-bottom: 20px;
+      background: white;
+    }
+
+    .card-header {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      border-radius: 15px 15px 0 0 !important;
+      padding: 20px;
+      font-weight: 600;
+    }
+
+    .item-card {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      margin-bottom: 15px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      transition: all 0.3s;
+      border: 2px solid #f0f0f0;
+    }
+
+    .item-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      border-color: #667eea;
+    }
+
+    .item-img {
+      width: 100px;
+      height: 100px;
+      object-fit: cover;
+      border-radius: 10px;
+      border: 2px solid #e0e0e0;
+    }
+
+    .btn-primary {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      border: none;
+      padding: 10px 20px;
+      font-weight: 600;
+    }
+
+    .btn-primary:hover {
+      background: linear-gradient(135deg, #5568d3, #6a4193);
+    }
+
+    .upload-method-tabs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .upload-method-tab {
+      flex: 1;
+      padding: 15px;
+      border: 2px solid #e0e0e0;
+      border-radius: 8px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .upload-method-tab:hover {
+      border-color: #667eea;
+      background: #f8f9ff;
+    }
+
+    .upload-method-tab.active {
+      border-color: #667eea;
+      background: #667eea;
+      color: white;
+    }
+
+    .upload-method-tab i {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    .file-upload-area {
+      border: 2px dashed #667eea;
+      border-radius: 10px;
+      padding: 40px;
+      text-align: center;
+      cursor: pointer;
+      transition: all 0.3s;
+      background: #f8f9ff;
+    }
+
+    .file-upload-area:hover {
+      background: #f0f1ff;
+      border-color: #5568d3;
+    }
+
+    .image-preview {
+      width: 100%;
+      max-width: 250px;
+      height: 200px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-top: 15px;
+      border: 2px solid #e0e0e0;
+    }
+
+    .badge-new {
+      background: #28a745;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.75rem;
+    }
+
+    .badge-featured {
+      background: #ffc107;
+      color: #000;
+      padding: 5px 10px;
+      border-radius: 5px;
+      font-size: 0.75rem;
+    }
+
+    .custom-alert {
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 9999;
+      min-width: 350px;
+      animation: slideIn 0.3s ease-out;
+    }
+
+    @keyframes slideIn {
+      from { transform: translateX(400px); opacity: 0; }
+      to { transform: translateX(0); opacity: 1; }
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 60px 20px;
+    }
+
+    .empty-state i {
+      font-size: 5rem;
+      color: #ddd;
+      margin-bottom: 20px;
+    }
+
+    .tab-pane {
+      animation: fadeIn 0.3s;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .spinner-container {
+      text-align: center;
+      padding: 60px;
+    }
+
+    .spinner-border {
+      width: 3rem;
+      height: 3rem;
+      border-width: 0.3em;
+    }
+
+    .form-text {
+      font-size: 0.75rem;
+    }
+
+    /* Category Section in Products */
+    .category-section {
+      background: #f8f9ff;
+      border-radius: 12px;
+      padding: 20px;
+      margin-bottom: 20px;
+      border-left: 4px solid #667eea;
+    }
+
+    .category-section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+    }
+
+    .category-section-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #667eea;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .category-section-title i {
+      font-size: 1rem;
+    }
+
+    .product-count-badge {
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      color: white;
+      padding: 4px 12px;
+      border-radius: 999px;
+      font-size: 0.8rem;
+    }
+
+    .stats-cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 20px;
+      margin-bottom: 30px;
+    }
+
+    .stat-card {
+      background: white;
+      padding: 25px;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+      text-align: center;
+    }
+
+    .stat-card i {
+      font-size: 2.5rem;
+      background: linear-gradient(135deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 10px;
+    }
+
+    .stat-card .stat-number {
+      font-size: 2rem;
+      font-weight: 700;
+      color: #333;
+    }
+
+    .stat-card .stat-label {
+      color: #777;
+      font-size: 0.85rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <!-- Header -->
+    <div class="admin-header">
+      <div class="d-flex justify-content-between align-items-center">
+        <div>
+          <h1><i class="fas fa-tools me-2"></i>AASHVI Admin Panel</h1>
+          <p class="text-muted mb-0">Manage carousel, categories & products</p>
+        </div>
+        <div>
+          <a href="index.html" class="btn btn-outline-primary me-2" target="_blank">
+            <i class="fas fa-eye me-2"></i>View Store
+          </a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats Cards -->
+    <div class="stats-cards">
+      <div class="stat-card">
+        <i class="fas fa-images"></i>
+        <div class="stat-number" id="statCarousel">0</div>
+        <div class="stat-label">Carousel Slides</div>
+      </div>
+      <div class="stat-card">
+        <i class="fas fa-th-large"></i>
+        <div class="stat-number" id="statCategories">0</div>
+        <div class="stat-label">Categories</div>
+      </div>
+      <div class="stat-card">
+        <i class="fas fa-box"></i>
+        <div class="stat-number" id="statProducts">0</div>
+        <div class="stat-label">Products</div>
+      </div>
+      <div class="stat-card">
+        <i class="fas fa-star"></i>
+        <div class="stat-number" id="statFeatured">0</div>
+        <div class="stat-label">Featured Products</div>
+      </div>
+    </div>
+
+    <!-- Navigation Tabs -->
+    <div class="admin-nav">
+      <ul class="nav nav-tabs" id="adminTabs" role="tablist">
+        <li class="nav-item" role="presentation">
+          <button class="nav-link active" id="carousel-tab" data-bs-toggle="tab" data-bs-target="#carousel" type="button">
+            <i class="fas fa-images"></i>Carousel
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="categories-tab" data-bs-toggle="tab" data-bs-target="#categories" type="button">
+            <i class="fas fa-th-large"></i>Categories
+          </button>
+        </li>
+        <li class="nav-item" role="presentation">
+          <button class="nav-link" id="products-tab" data-bs-toggle="tab" data-bs-target="#products" type="button">
+            <i class="fas fa-box"></i>Products
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Tab Content -->
+    <div class="tab-content" id="adminTabContent">
+      
+      <!-- CAROUSEL TAB -->
+      <div class="tab-pane fade show active" id="carousel" role="tabpanel">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <span><i class="fas fa-images me-2"></i>Carousel Slides (<span id="carouselCount">0</span>)</span>
+            <button class="btn btn-light btn-sm" onclick="openCarouselModal()">
+              <i class="fas fa-plus me-1"></i>Add Slide
+            </button>
+          </div>
+          <div class="card-body">
+            <div id="carouselContainer">
+              <div class="spinner-container">
+                <div class="spinner-border text-primary"></div>
+                <p class="mt-3">Loading carousel slides...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- CATEGORIES TAB -->
+      <div class="tab-pane fade" id="categories" role="tabpanel">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <span><i class="fas fa-list me-2"></i>All Categories (<span id="allCategoriesCount">0</span>)</span>
+            <button class="btn btn-light btn-sm" onclick="openCategoryModal()">
+              <i class="fas fa-plus me-1"></i>Add Category
+            </button>
+          </div>
+          <div class="card-body">
+            <p class="text-muted small mb-3">
+              <i class="fas fa-info-circle me-1"></i>
+              Create categories first, then add products to each category. Products will be grouped by category.
+            </p>
+            <div id="categoriesContainer">
+              <div class="spinner-container">
+                <div class="spinner-border text-primary"></div>
+                <p class="mt-3">Loading categories...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- PRODUCTS TAB -->
+      <div class="tab-pane fade" id="products" role="tabpanel">
+        <div class="card">
+          <div class="card-header d-flex justify-content-between align-items-center">
+            <span><i class="fas fa-box me-2"></i>All Products (<span id="productsCount">0</span>)</span>
+            <button class="btn btn-light btn-sm" onclick="openProductModal()">
+              <i class="fas fa-plus me-1"></i>Add Product
+            </button>
+          </div>
+          <div class="card-body">
+            <p class="text-muted small mb-3">
+              <i class="fas fa-info-circle me-1"></i>
+              Products are organized by category. Select a category when adding a product to group them together.
+            </p>
+            <div id="productsContainer">
+              <div class="spinner-container">
+                <div class="spinner-border text-primary"></div>
+                <p class="mt-3">Loading products...</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Alert Container -->
+  <div id="alertContainer"></div>
+
+  <!-- ======================== MODALS ======================== -->
+
+  <!-- Carousel Modal -->
+  <div class="modal fade" id="carouselModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="carouselModalTitle">Add Carousel Slide</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="carouselForm">
+            <input type="hidden" id="carouselId">
+            
+            <div class="mb-3">
+              <label class="form-label fw-bold">Slide Image *</label>
+              <div class="upload-method-tabs">
+                <div class="upload-method-tab active" onclick="switchUpload('carousel', 'url', event)">
+                  <i class="fas fa-link"></i>
+                  <div>Image URL</div>
+                </div>
+                <div class="upload-method-tab" onclick="switchUpload('carousel', 'file', event)">
+                  <i class="fas fa-upload"></i>
+                  <div>Upload File</div>
+                </div>
+              </div>
+              
+              <div id="carouselUrlUpload">
+                <input type="url" class="form-control" id="carouselImageUrl" placeholder="https://...">
+              </div>
+              
+              <div id="carouselFileUpload" style="display: none;">
+                <div class="file-upload-area" onclick="document.getElementById('carouselImageFile').click()">
+                  <i class="fas fa-cloud-upload-alt fa-3x text-primary mb-3"></i>
+                  <p class="mb-2"><strong>Click to upload</strong> or drag and drop</p>
+                  <small class="text-muted">PNG, JPG up to 5MB</small>
+                </div>
+                <input type="file" id="carouselImageFile" style="display:none" accept="image/*">
+              </div>
+              
+              <div id="carouselPreviewContainer" style="display: none;" class="mt-3 text-center">
+                <img id="carouselPreview" class="image-preview" alt="Preview">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Slide Title *</label>
+              <input type="text" class="form-control" id="carouselTitle" placeholder="e.g., New Collection 2025" required>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Slide Subtitle</label>
+              <input type="text" class="form-control" id="carouselSubtitle" placeholder="e.g., Up to 50% off">
+            </div>
+
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Button Text</label>
+                <input type="text" class="form-control" id="carouselButtonText" placeholder="e.g., Shop Now">
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Button Link</label>
+                <input type="text" class="form-control" id="carouselButtonLink" placeholder="e.g., product.html">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" onclick="saveCarousel()">
+            <i class="fas fa-save me-2"></i>Save Slide
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Category Modal -->
+  <div class="modal fade" id="categoryModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="categoryModalTitle">Add Category</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="categoryForm">
+            <input type="hidden" id="categoryId">
+            
+            <div class="mb-3">
+              <label class="form-label">Category Name *</label>
+              <input type="text" class="form-control" id="categoryName" placeholder="e.g., Saree, Kurti, Lehenga" required>
+              <div class="form-text">This name will appear in product filters and category pages.</div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label fw-bold">Category Image *</label>
+              <div class="upload-method-tabs">
+                <div class="upload-method-tab active" onclick="switchUpload('category', 'url', event)">
+                  <i class="fas fa-link"></i>
+                  <div>Image URL</div>
+                </div>
+                <div class="upload-method-tab" onclick="switchUpload('category', 'file', event)">
+                  <i class="fas fa-upload"></i>
+                  <div>Upload File</div>
+                </div>
+              </div>
+              
+              <div id="categoryUrlUpload">
+                <input type="url" class="form-control" id="categoryImageUrl" placeholder="https://...">
+              </div>
+              
+              <div id="categoryFileUpload" style="display: none;">
+                <div class="file-upload-area" onclick="document.getElementById('categoryImageFile').click()">
+                  <i class="fas fa-cloud-upload-alt fa-3x text-primary mb-3"></i>
+                  <p class="mb-2"><strong>Click to upload</strong> or drag and drop</p>
+                  <small class="text-muted">PNG, JPG up to 5MB</small>
+                </div>
+                <input type="file" id="categoryImageFile" style="display:none" accept="image/*">
+              </div>
+              
+              <div id="categoryPreviewContainer" style="display: none;" class="mt-3 text-center">
+                <img id="categoryPreview" class="image-preview" alt="Preview">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Description</label>
+              <textarea class="form-control" id="categoryDescription" rows="2" placeholder="Brief description of this category..."></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" onclick="saveCategory()">
+            <i class="fas fa-save me-2"></i>Save Category
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Product Modal -->
+  <div class="modal fade" id="productModal" tabindex="-1">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="productModalTitle">Add Product</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+        </div>
+        <div class="modal-body">
+          <form id="productForm">
+            <input type="hidden" id="productId">
+            
+            <div class="row">
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Product Name *</label>
+                <input type="text" class="form-control" id="productName" placeholder="e.g., Bridal Silk Saree" required>
+              </div>
+              <div class="col-md-6 mb-3">
+                <label class="form-label">Category *</label>
+                <select class="form-select" id="productCategory" required>
+                  <option value="">-- Select Category --</option>
+                </select>
+                <div class="form-text">
+                  <i class="fas fa-lightbulb text-warning"></i>
+                  Create categories first in the Categories tab, then come back here to add products.
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label">Description *</label>
+              <textarea class="form-control" id="productDescription" rows="3" placeholder="Describe your product in detail..." required></textarea>
+            </div>
+
+            <div class="row">
+              <div class="col-md-3 mb-3">
+                <label class="form-label">Price (₹) *</label>
+                <input type="number" class="form-control" id="productPrice" step="0.01" min="0" placeholder="1999" required>
+              </div>
+              <div class="col-md-3 mb-3">
+                <label class="form-label">Rating (1-5)</label>
+                <input type="number" class="form-control" id="productRating" step="0.1" min="1" max="5" value="4.0">
+              </div>
+              <div class="col-md-3 mb-3">
+                <label class="form-label">New Arrival?</label>
+                <select class="form-select" id="productIsNew">
+                  <option value="false">No</option>
+                  <option value="true">Yes (Show "New" badge)</option>
+                </select>
+              </div>
+              <div class="col-md-3 mb-3">
+                <label class="form-label">Featured?</label>
+                <select class="form-select" id="productIsFeatured">
+                  <option value="false">No</option>
+                  <option value="true">Yes (Show on homepage)</option>
+                </select>
+              </div>
+            </div>
+
+            <hr class="my-4">
+
+            <div class="mb-3">
+              <label class="form-label fw-bold">Main Product Image *</label>
+              <div class="upload-method-tabs">
+                <div class="upload-method-tab active" onclick="switchUpload('product', 'url', event)">
+                  <i class="fas fa-link"></i>
+                  <div>Image URL</div>
+                </div>
+                <div class="upload-method-tab" onclick="switchUpload('product', 'file', event)">
+                  <i class="fas fa-upload"></i>
+                  <div>Upload File</div>
+                </div>
+              </div>
+              
+              <div id="productUrlUpload">
+                <input type="url" class="form-control" id="productImageUrl" placeholder="https://...">
+              </div>
+              
+              <div id="productFileUpload" style="display: none;">
+                <div class="file-upload-area" onclick="document.getElementById('productImageFile').click()">
+                  <i class="fas fa-cloud-upload-alt fa-3x text-primary mb-3"></i>
+                  <p class="mb-2"><strong>Click to upload</strong> or drag and drop</p>
+                  <small class="text-muted">PNG, JPG up to 5MB</small>
+                </div>
+                <input type="file" id="productImageFile" style="display:none" accept="image/*">
+              </div>
+              
+              <div id="productPreviewContainer" style="display: none;" class="mt-3 text-center">
+                <img id="productPreview" class="image-preview" alt="Preview">
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+          <button type="button" class="btn btn-primary" onclick="saveProduct()">
+            <i class="fas fa-save me-2"></i>Save Product
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap JS -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <!-- ======================== ADMIN JS ======================== -->
+  <script>
+    const API_URL = 'http://localhost:5000/api';
+
+    let carouselSlides = [];
+    let categories = [];
+    let products = [];
+
+    // ================= INIT =================
+    document.addEventListener('DOMContentLoaded', () => {
+      loadAllData();
+      setupImagePreviewHandlers();
+    });
+
+    async function loadAllData() {
+      await Promise.all([
+        fetchCarousel(),
+        fetchCategories(),
+        fetchProducts()
+      ]);
+      updateAllCounts();
+    }
+
+    function updateAllCounts() {
+      // Header stats
+      document.getElementById('statCarousel').textContent = carouselSlides.length;
+      document.getElementById('statCategories').textContent = categories.length;
+      document.getElementById('statProducts').textContent = products.length;
+      document.getElementById('statFeatured').textContent = products.filter(p => p.isFeatured).length;
+
+      // Tab counts
+      document.getElementById('carouselCount').textContent = carouselSlides.length;
+      document.getElementById('allCategoriesCount').textContent = categories.length;
+      document.getElementById('productsCount').textContent = products.length;
+    }
+
+    // ================= FETCH FUNCTIONS =================
+    async function fetchCarousel() {
+      const container = document.getElementById('carouselContainer');
+      try {
+        const res = await fetch(`${API_URL}/carousel`);
+        const data = await res.json();
+        if (!data.success) throw new Error('Failed to load carousel');
+        carouselSlides = data.slides || [];
+        renderCarouselSlides();
+      } catch (err) {
+        console.error(err);
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-triangle-exclamation"></i>
+            <h5>Error loading carousel</h5>
+            <p class="text-muted">Make sure server.js is running on port 5000.</p>
+          </div>
+        `;
+      }
+    }
+
+    async function fetchCategories() {
+      const container = document.getElementById('categoriesContainer');
+      try {
+        const res = await fetch(`${API_URL}/categories`);
+        const data = await res.json();
+        if (!data.success) throw new Error('Failed to load categories');
+        categories = data.categories || [];
+        renderCategories();
+        populateCategoryDropdown();
+      } catch (err) {
+        console.error(err);
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-triangle-exclamation"></i>
+            <h5>Error loading categories</h5>
+            <p class="text-muted">Make sure server.js is running on port 5000.</p>
+          </div>
+        `;
+      }
+    }
+
+    async function fetchProducts() {
+      const container = document.getElementById('productsContainer');
+      try {
+        const res = await fetch(`${API_URL}/products`);
+        const data = await res.json();
+        if (!data.success) throw new Error('Failed to load products');
+        products = data.products || [];
+        renderProductsByCategory();
+      } catch (err) {
+        console.error(err);
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-triangle-exclamation"></i>
+            <h5>Error loading products</h5>
+            <p class="text-muted">Make sure server.js is running on port 5000.</p>
+          </div>
+        `;
+      }
+    }
+
+    // ================= CAROUSEL =================
+    function renderCarouselSlides() {
+      const container = document.getElementById('carouselContainer');
+      if (!carouselSlides.length) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-images"></i>
+            <h5 class="mt-3">No carousel slides yet</h5>
+            <p class="text-muted">Add slides to create a hero banner for your store.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = carouselSlides.map(slide => `
+        <div class="item-card">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <img src="${getImageUrl(slide.image)}" class="item-img" alt="${slide.title}" 
+                   onerror="this.src='https://via.placeholder.com/100x100?text=Slide'">
+            </div>
+            <div class="col">
+              <h6 class="mb-1">${slide.title || 'Untitled'}</h6>
+              <p class="text-muted mb-0 small">${slide.subtitle || 'No subtitle'}</p>
+              ${slide.buttonText ? `<span class="badge bg-info mt-1">${slide.buttonText}</span>` : ''}
+            </div>
+            <div class="col-auto">
+              <button class="btn btn-sm btn-outline-primary me-2" onclick="openCarouselModal('${slide.id}')">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-danger" onclick="deleteCarousel('${slide.id}')">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function openCarouselModal(id = null) {
+      const modal = new bootstrap.Modal(document.getElementById('carouselModal'));
+      document.getElementById('carouselForm').reset();
+      document.getElementById('carouselId').value = '';
+      document.getElementById('carouselPreviewContainer').style.display = 'none';
+      resetUploadTabs('carousel');
+
+      if (id) {
+        const slide = carouselSlides.find(s => s.id === id);
+        if (slide) {
+          document.getElementById('carouselModalTitle').textContent = 'Edit Carousel Slide';
+          document.getElementById('carouselId').value = slide.id;
+          document.getElementById('carouselImageUrl').value = slide.image || '';
+          document.getElementById('carouselTitle').value = slide.title || '';
+          document.getElementById('carouselSubtitle').value = slide.subtitle || '';
+          document.getElementById('carouselButtonText').value = slide.buttonText || '';
+          document.getElementById('carouselButtonLink').value = slide.buttonLink || '';
+          if (slide.image) {
+            document.getElementById('carouselPreview').src = getImageUrl(slide.image);
+            document.getElementById('carouselPreviewContainer').style.display = 'block';
+          }
+        }
+      } else {
+        document.getElementById('carouselModalTitle').textContent = 'Add Carousel Slide';
+      }
+
+      modal.show();
+    }
+
+    async function saveCarousel() {
+      const id = document.getElementById('carouselId').value;
+      const title = document.getElementById('carouselTitle').value.trim();
+      const subtitle = document.getElementById('carouselSubtitle').value.trim();
+      const buttonText = document.getElementById('carouselButtonText').value.trim();
+      const buttonLink = document.getElementById('carouselButtonLink').value.trim();
+      const imageUrl = document.getElementById('carouselImageUrl').value.trim();
+      const imageFile = document.getElementById('carouselImageFile').files[0];
+
+      if (!title) {
+        showAlert('Please enter a title', 'danger');
+        return;
+      }
+
+      const sendData = async (imageSrc) => {
+        if (!imageSrc) {
+          showAlert('Please provide an image', 'danger');
+          return;
+        }
+
+        const payload = { image: imageSrc, title, subtitle, buttonText, buttonLink };
+        if (id) payload.id = id;
+
+        const url = id ? `${API_URL}/carousel/update` : `${API_URL}/carousel/add`;
+        
+        try {
+          const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          const data = await res.json();
+          
+          if (!data.success) throw new Error(data.message || 'Failed to save');
+          
+          showAlert('Carousel slide saved!', 'success');
+          bootstrap.Modal.getInstance(document.getElementById('carouselModal')).hide();
+          fetchCarousel();
+          updateAllCounts();
+        } catch (err) {
+          showAlert('Error: ' + err.message, 'danger');
+        }
+      };
+
+      if (imageFile) {
+        const reader = new FileReader();
+        reader.onload = e => sendData(e.target.result);
+        reader.readAsDataURL(imageFile);
+      } else {
+        sendData(imageUrl);
+      }
+    }
+
+    async function deleteCarousel(id) {
+      if (!confirm('Delete this slide?')) return;
+      try {
+        await fetch(`${API_URL}/carousel/delete/${id}`, { method: 'DELETE' });
+        showAlert('Slide deleted', 'success');
+        fetchCarousel();
+        updateAllCounts();
+      } catch (err) {
+        showAlert('Error deleting slide', 'danger');
+      }
+    }
+
+    // ================= CATEGORIES =================
+    function renderCategories() {
+      const container = document.getElementById('categoriesContainer');
+      if (!categories.length) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-th-large"></i>
+            <h5 class="mt-3">No categories yet</h5>
+            <p class="text-muted">Create categories like "Saree", "Kurti", "Lehenga" to organize your products.</p>
+          </div>
+        `;
+        return;
+      }
+
+      container.innerHTML = categories.map(cat => {
+        const productCount = products.filter(p => (p.category || '').toLowerCase() === (cat.name || '').toLowerCase()).length;
+        return `
+          <div class="item-card">
+            <div class="row align-items-center">
+              <div class="col-auto">
+                <img src="${getImageUrl(cat.image)}" class="item-img" alt="${cat.name}"
+                     onerror="this.src='https://via.placeholder.com/100x100?text=Category'">
+              </div>
+              <div class="col">
+                <h6 class="mb-1">${cat.name}</h6>
+                <p class="text-muted mb-0 small">${cat.description || 'No description'}</p>
+                <span class="badge bg-primary mt-1">${productCount} products</span>
+              </div>
+              <div class="col-auto">
+                <button class="btn btn-sm btn-outline-primary me-2" onclick="openCategoryModal('${cat.id}')">
+                  <i class="fas fa-edit"></i>
+                </button>
+                <button class="btn btn-sm btn-outline-danger" onclick="deleteCategory('${cat.id}')">
+                  <i class="fas fa-trash"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function openCategoryModal(id = null) {
+      const modal = new bootstrap.Modal(document.getElementById('categoryModal'));
+      document.getElementById('categoryForm').reset();
+      document.getElementById('categoryId').value = '';
+      document.getElementById('categoryPreviewContainer').style.display = 'none';
+      resetUploadTabs('category');
+
+      if (id) {
+        const cat = categories.find(c => c.id === id);
+        if (cat) {
+          document.getElementById('categoryModalTitle').textContent = 'Edit Category';
+          document.getElementById('categoryId').value = cat.id;
+          document.getElementById('categoryName').value = cat.name || '';
+          document.getElementById('categoryImageUrl').value = cat.image || '';
+          document.getElementById('categoryDescription').value = cat.description || '';
+          if (cat.image) {
+            document.getElementById('categoryPreview').src = getImageUrl(cat.image);
+            document.getElementById('categoryPreviewContainer').style.display = 'block';
+          }
+        }
+      } else {
+        document.getElementById('categoryModalTitle').textContent = 'Add Category';
+      }
+
+      modal.show();
+    }
+
+    async function saveCategory() {
+      const id = document.getElementById('categoryId').value;
+      const name = document.getElementById('categoryName').value.trim();
+      const description = document.getElementById('categoryDescription').value.trim();
+      const imageUrl = document.getElementById('categoryImageUrl').value.trim();
+      const imageFile = document.getElementById('categoryImageFile').files[0];
+
+      if (!name) {
+        showAlert('Please enter a category name', 'danger');
+        return;
+      }
+
+      const sendData = async (imageSrc) => {
+        if (!imageSrc) {
+          showAlert('Please provide an image', 'danger');
+          return;
+        }
+
+        const payload = { name, description, image: imageSrc };
+        if (id) payload.id = id;
+
+        const url = id ? `${API_URL}/categories/update` : `${API_URL}/categories/add`;
+        
+        try {
+          const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          const data = await res.json();
+          
+          if (!data.success) throw new Error(data.message || 'Failed to save');
+          
+          showAlert('Category saved!', 'success');
+          bootstrap.Modal.getInstance(document.getElementById('categoryModal')).hide();
+          fetchCategories();
+          fetchProducts();
+          updateAllCounts();
+        } catch (err) {
+          showAlert('Error: ' + err.message, 'danger');
+        }
+      };
+
+      if (imageFile) {
+        const reader = new FileReader();
+        reader.onload = e => sendData(e.target.result);
+        reader.readAsDataURL(imageFile);
+      } else {
+        sendData(imageUrl);
+      }
+    }
+
+    async function deleteCategory(id) {
+      if (!confirm('Delete this category? Products in this category will become uncategorized.')) return;
+      try {
+        await fetch(`${API_URL}/categories/delete/${id}`, { method: 'DELETE' });
+        showAlert('Category deleted', 'success');
+        fetchCategories();
+        fetchProducts();
+        updateAllCounts();
+      } catch (err) {
+        showAlert('Error deleting category', 'danger');
+      }
+    }
+
+    // ================= PRODUCTS =================
+    function renderProductsByCategory() {
+      const container = document.getElementById('productsContainer');
+      
+      if (!products.length) {
+        container.innerHTML = `
+          <div class="empty-state">
+            <i class="fas fa-box-open"></i>
+            <h5 class="mt-3">No products yet</h5>
+            <p class="text-muted">Add products and assign them to categories.</p>
+          </div>
+        `;
+        return;
+      }
+
+      // Group products by category
+      const grouped = {};
+      const uncategorized = [];
+
+      products.forEach(p => {
+        const catName = p.category || '';
+        if (catName) {
+          if (!grouped[catName]) grouped[catName] = [];
+          grouped[catName].push(p);
+        } else {
+          uncategorized.push(p);
+        }
+      });
+
+      let html = '';
+
+      // Render each category section
+      Object.keys(grouped).sort().forEach(catName => {
+        const catProducts = grouped[catName];
+        html += `
+          <div class="category-section">
+            <div class="category-section-header">
+              <div class="category-section-title">
+                <i class="fas fa-folder"></i>
+                ${catName}
+              </div>
+              <span class="product-count-badge">${catProducts.length} product${catProducts.length !== 1 ? 's' : ''}</span>
+            </div>
+            ${catProducts.map(renderProductCard).join('')}
+          </div>
+        `;
+      });
+
+      // Uncategorized products
+      if (uncategorized.length) {
+        html += `
+          <div class="category-section" style="border-left-color: #dc3545;">
+            <div class="category-section-header">
+              <div class="category-section-title" style="color: #dc3545;">
+                <i class="fas fa-question-circle"></i>
+                Uncategorized
+              </div>
+              <span class="product-count-badge" style="background: #dc3545;">${uncategorized.length} product${uncategorized.length !== 1 ? 's' : ''}</span>
+            </div>
+            ${uncategorized.map(renderProductCard).join('')}
+          </div>
+        `;
+      }
+
+      container.innerHTML = html;
+    }
+
+    function renderProductCard(prod) {
+      return `
+        <div class="item-card">
+          <div class="row align-items-center">
+            <div class="col-auto">
+              <img src="${getImageUrl(prod.image)}" class="item-img" alt="${prod.name}"
+                   onerror="this.src='https://via.placeholder.com/100x100?text=Product'">
+            </div>
+            <div class="col">
+              <h6 class="mb-1">${prod.name}</h6>
+              <p class="text-muted mb-1 small">${(prod.description || '').substring(0, 60)}${(prod.description || '').length > 60 ? '...' : ''}</p>
+              <div>
+                <span class="badge bg-success">₹${prod.price}</span>
+                <span class="badge bg-warning text-dark">${prod.rating || 4.0} ⭐</span>
+                ${prod.isNew ? '<span class="badge badge-new ms-1">New</span>' : ''}
+                ${prod.isFeatured ? '<span class="badge badge-featured ms-1">Featured</span>' : ''}
+              </div>
+            </div>
+            <div class="col-auto">
+              <button class="btn btn-sm btn-outline-primary me-2" onclick="openProductModal('${prod.id}')">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn btn-sm btn-outline-danger" onclick="deleteProduct('${prod.id}')">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    function populateCategoryDropdown() {
+      const select = document.getElementById('productCategory');
+      select.innerHTML = '<option value="">-- Select Category --</option>' +
+        categories.map(cat => `<option value="${cat.name}">${cat.name}</option>`).join('');
+    }
+
+    function openProductModal(id = null) {
+      const modal = new bootstrap.Modal(document.getElementById('productModal'));
+      document.getElementById('productForm').reset();
+      document.getElementById('productId').value = '';
+      document.getElementById('productPreviewContainer').style.display = 'none';
+      resetUploadTabs('product');
+      populateCategoryDropdown();
+
+      if (id) {
+        const p = products.find(x => x.id === id);
+        if (p) {
+          document.getElementById('productModalTitle').textContent = 'Edit Product';
+          document.getElementById('productId').value = p.id;
+          document.getElementById('productName').value = p.name || '';
+          document.getElementById('productCategory').value = p.category || '';
+          document.getElementById('productDescription').value = p.description || '';
+          document.getElementById('productPrice').value = p.price || '';
+          document.getElementById('productRating').value = p.rating || 4.0;
+          document.getElementById('productIsNew').value = p.isNew ? 'true' : 'false';
+          document.getElementById('productIsFeatured').value = p.isFeatured ? 'true' : 'false';
+          document.getElementById('productImageUrl').value = p.image || '';
+          if (p.image) {
+            document.getElementById('productPreview').src = getImageUrl(p.image);
+            document.getElementById('productPreviewContainer').style.display = 'block';
+          }
+        }
+      } else {
+        document.getElementById('productModalTitle').textContent = 'Add Product';
+      }
+
+      modal.show();
+    }
+
+    async function saveProduct() {
+      const id = document.getElementById('productId').value;
+      const name = document.getElementById('productName').value.trim();
+      const category = document.getElementById('productCategory').value;
+      const description = document.getElementById('productDescription').value.trim();
+      const price = parseFloat(document.getElementById('productPrice').value);
+      const rating = parseFloat(document.getElementById('productRating').value) || 4.0;
+      const isNew = document.getElementById('productIsNew').value === 'true';
+      const isFeatured = document.getElementById('productIsFeatured').value === 'true';
+      const imageUrl = document.getElementById('productImageUrl').value.trim();
+      const imageFile = document.getElementById('productImageFile').files[0];
+
+      if (!name || !category || !description || !price) {
+        showAlert('Please fill all required fields', 'danger');
+        return;
+      }
+
+      const sendData = async (imageSrc) => {
+        if (!imageSrc) {
+          showAlert('Please provide an image', 'danger');
+          return;
+        }
+
+        const payload = {
+          name, category, description, price, rating, isNew, isFeatured, image: imageSrc
+        };
+        if (id) payload.id = id;
+
+        const url = id ? `${API_URL}/products/update` : `${API_URL}/products/add`;
+        
+        try {
+          const res = await fetch(url, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+          });
+          const data = await res.json();
+          
+          if (!data.success) throw new Error(data.message || 'Failed to save');
+          
+          showAlert('Product saved!', 'success');
+          bootstrap.Modal.getInstance(document.getElementById('productModal')).hide();
+          fetchProducts();
+          updateAllCounts();
+        } catch (err) {
+          showAlert('Error: ' + err.message, 'danger');
+        }
+      };
+
+      if (imageFile) {
+        const reader = new FileReader();
+        reader.onload = e => sendData(e.target.result);
+        reader.readAsDataURL(imageFile);
+      } else {
+        sendData(imageUrl);
+      }
+    }
+
+    async function deleteProduct(id) {
+      if (!confirm('Delete this product?')) return;
+      try {
+        await fetch(`${API_URL}/products/delete/${id}`, { method: 'DELETE' });
+        showAlert('Product deleted', 'success');
+        fetchProducts();
+        updateAllCounts();
+      } catch (err) {
+        showAlert('Error deleting product', 'danger');
+      }
+    }
+
+    // ================= UTILITIES =================
+    function getImageUrl(img) {
+      if (!img) return 'https://via.placeholder.com/100x100?text=No+Image';
+      if (img.startsWith('http') || img.startsWith('data:')) return img;
+      return `http://localhost:5000/${img}`;
+    }
+
+    function showAlert(message, type = 'info') {
+      const icon = type === 'success' ? 'check-circle' : type === 'danger' ? 'exclamation-circle' : 'info-circle';
+      const alertHtml = `
+        <div class="alert alert-${type} alert-dismissible fade show custom-alert" role="alert">
+          <i class="fas fa-${icon} me-2"></i>${message}
+          <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+        </div>
+      `;
+      
+      const container = document.getElementById('alertContainer');
+      container.innerHTML = alertHtml;
+      
+      setTimeout(() => {
+        const alert = container.querySelector('.alert');
+        if (alert) {
+          alert.classList.remove('show');
+          setTimeout(() => alert.remove(), 300);
+        }
+      }, 3000);
+    }
+
+    // ================= UPLOAD HANDLING =================
+    function switchUpload(type, method, event) {
+      const tabs = event.target.closest('.upload-method-tabs').querySelectorAll('.upload-method-tab');
+      tabs.forEach(t => t.classList.remove('active'));
+      event.target.closest('.upload-method-tab').classList.add('active');
+
+      document.getElementById(`${type}UrlUpload`).style.display = method === 'url' ? 'block' : 'none';
+      document.getElementById(`${type}FileUpload`).style.display = method === 'file' ? 'block' : 'none';
+    }
+
+    function resetUploadTabs(type) {
+      document.getElementById(`${type}UrlUpload`).style.display = 'block';
+      document.getElementById(`${type}FileUpload`).style.display = 'none';
+    }
+
+    function setupImagePreviewHandlers() {
+      ['carousel', 'category', 'product'].forEach(type => {
+        const urlInput = document.getElementById(`${type}ImageUrl`);
+        const fileInput = document.getElementById(`${type}ImageFile`);
+        const preview = document.getElementById(`${type}Preview`);
+        const container = document.getElementById(`${type}PreviewContainer`);
+
+        if (urlInput) {
+          urlInput.addEventListener('input', function() {
+            if (this.value) {
+              preview.src = this.value;
+              container.style.display = 'block';
+            } else {
+              container.style.display = 'none';
+            }
+          });
+        }
+
+        if (fileInput) {
+          fileInput.addEventListener('change', function(e) {
+            if (e.target.files && e.target.files[0]) {
+              const reader = new FileReader();
+              reader.onload = function(ev) {
+                preview.src = ev.target.result;
+                container.style.display = 'block';
+              };
+              reader.readAsDataURL(e.target.files[0]);
+            }
+          });
+        }
+      });
+    }
+  </script>
+</body>
+</html>

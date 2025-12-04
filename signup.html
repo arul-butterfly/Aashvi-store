@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sign Up | AASHVI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); color: white; min-height: 100vh; }
+        .container { display: flex; min-height: 100vh; }
+        .left { flex: 1; padding: 60px; display: flex; flex-direction: column; justify-content: center; max-width: 600px; }
+        .logo { font-size: 32px; font-weight: 700; color: #007bff; margin-bottom: 30px; }
+        .title { font-size: 42px; font-weight: 700; line-height: 1.2; background: linear-gradient(135deg, #fff 0%, #007bff 100%); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { margin-top: 15px; font-size: 16px; color: #aaa; line-height: 1.6; }
+        .signup-box { margin-top: 40px; background: rgba(255, 255, 255, 0.05); padding: 40px; border-radius: 20px; backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3); }
+        .error-message, .success-message { padding: 12px; border-radius: 8px; margin-bottom: 20px; display: none; font-size: 14px; }
+        .error-message { background: rgba(220, 53, 69, 0.1); color: #ff6b6b; border: 1px solid rgba(220, 53, 69, 0.3); }
+        .success-message { background: rgba(40, 167, 69, 0.1); color: #51cf66; border: 1px solid rgba(40, 167, 69, 0.3); }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 8px; color: #ccc; font-size: 14px; font-weight: 600; }
+        input { width: 100%; padding: 14px 16px; border-radius: 12px; outline: none; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.05); color: #fff; font-size: 15px; transition: all 0.3s; }
+        input:focus { border-color: #007bff; background: rgba(255, 255, 255, 0.08); }
+        input::placeholder { color: #666; }
+        .password-requirements { font-size: 12px; color: #888; margin-top: 5px; }
+        .password-requirements.valid { color: #51cf66; }
+        .signup-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, #007bff 0%, #0056b3 100%); color: #fff; border-radius: 12px; border: none; cursor: pointer; font-weight: 600; font-size: 16px; transition: all 0.3s; margin-top: 10px; }
+        .signup-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3); }
+        .signup-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+        .login-link { text-align: center; margin-top: 20px; color: #aaa; font-size: 14px; }
+        .login-link a { color: #007bff; text-decoration: none; font-weight: 600; }
+        .login-link a:hover { text-decoration: underline; }
+        .right { flex: 1; display: flex; justify-content: center; align-items: center; padding: 40px; background: rgba(0, 123, 255, 0.05); }
+        .right img { width: 100%; max-width: 500px; border-radius: 20px; box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3); }
+        @media (max-width: 968px) { .container { flex-direction: column; } .left { padding: 40px 30px; max-width: 100%; } .title { font-size: 32px; } .right { display: none; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <div class="logo">AASHVI</div>
+            <h1 class="title">Create Your<br>Account Today</h1>
+            <p class="subtitle">Join thousands of happy customers shopping with AASHVI</p>
+            <div class="signup-box">
+                <div class="error-message" id="errorMessage"></div>
+                <div class="success-message" id="successMessage"></div>
+                <form id="signupForm" onsubmit="createAccount(event)">
+                    <div class="form-group">
+                        <label for="nameInput"><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" id="nameInput" placeholder="Enter your full name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="emailInput"><i class="fas fa-envelope"></i> Email Address</label>
+                        <input type="email" id="emailInput" placeholder="Enter your email" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="passwordInput"><i class="fas fa-lock"></i> Password</label>
+                        <input type="password" id="passwordInput" placeholder="Create a password" required oninput="checkPasswordStrength()">
+                        <div class="password-requirements" id="passwordReq">Minimum 6 characters required</div>
+                    </div>
+                    <div class="form-group">
+                        <label for="confirmPasswordInput"><i class="fas fa-lock"></i> Confirm Password</label>
+                        <input type="password" id="confirmPasswordInput" placeholder="Re-enter your password" required>
+                    </div>
+                    <button type="submit" class="signup-btn" id="signupBtn">
+                        <i class="fas fa-user-plus"></i> Create Account
+                    </button>
+                </form>
+                <div class="login-link">
+                    Already have an account? <a href="login.html">Sign in here</a>
+                </div>
+            </div>
+        </div>
+        <div class="right">
+            <img src="https://images.unsplash.com/photo-1483985988355-763728e1935b?w=800&q=80" alt="Shopping">
+        </div>
+    </div>
+    <script>
+        const API_URL = 'http://localhost:5000/api';
+
+        function checkPasswordStrength() {
+            const password = document.getElementById('passwordInput').value;
+            const reqDiv = document.getElementById('passwordReq');
+            if (password.length >= 6) {
+                reqDiv.textContent = '✓ Password meets requirements';
+                reqDiv.classList.add('valid');
+            } else {
+                reqDiv.textContent = `Need ${6 - password.length} more character(s)`;
+                reqDiv.classList.remove('valid');
+            }
+        }
+
+        async function createAccount(event) {
+            event.preventDefault();
+            const name = document.getElementById('nameInput').value.trim();
+            const email = document.getElementById('emailInput').value.trim();
+            const password = document.getElementById('passwordInput').value;
+            const confirmPassword = document.getElementById('confirmPasswordInput').value;
+            const signupBtn = document.getElementById('signupBtn');
+
+            if (!name || !email || !password || !confirmPassword) {
+                showError('Please fill in all fields');
+                return;
+            }
+            if (password.length < 6) {
+                showError('Password must be at least 6 characters long');
+                return;
+            }
+            if (password !== confirmPassword) {
+                showError('Passwords do not match');
+                return;
+            }
+
+            signupBtn.disabled = true;
+            signupBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+
+            try {
+                const response = await fetch(`${API_URL}/auth/signup`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ name, email, password })
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    showSuccess('✓ Account created successfully! Redirecting to login...');
+                    setTimeout(() => { window.location.href = 'login.html'; }, 2000);
+                } else {
+                    showError(data.message || 'Failed to create account');
+                    signupBtn.disabled = false;
+                    signupBtn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
+                }
+            } catch (error) {
+                console.error('Signup Error:', error);
+                showError('Unable to connect to server. Check if backend is running.');
+                signupBtn.disabled = false;
+                signupBtn.innerHTML = '<i class="fas fa-user-plus"></i> Create Account';
+            }
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            const successDiv = document.getElementById('successMessage');
+            successDiv.style.display = 'none';
+            errorDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => { errorDiv.style.display = 'none'; }, 5000);
+        }
+
+        function showSuccess(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            const successDiv = document.getElementById('successMessage');
+            errorDiv.style.display = 'none';
+            successDiv.innerHTML = '<i class="fas fa-check-circle"></i> ' + message;
+            successDiv.style.display = 'block';
+        }
+
+        window.addEventListener('load', () => {
+            const isLoggedIn = localStorage.getItem('loggedIn');
+            if (isLoggedIn === 'true') window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>

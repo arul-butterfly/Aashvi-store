@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AASHVI | Order Confirmed</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --brand-primary: #667eea;
+      --brand-secondary: #764ba2;
+      --brand-dark: #181623;
+      --brand-accent: #ffb400;
+      --text-dark: #222;
+      --text-muted: #777;
+      --radius-lg: 18px;
+      --shadow-soft: 0 10px 30px rgba(0,0,0,0.08);
+      --shadow-strong: 0 20px 45px rgba(0,0,0,0.18);
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7ff 0%, #f8f7ff 100%);
+      min-height: 100vh;
+    }
+
+    /* NAVBAR */
+    .navbar {
+      background: #fff;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    /* SUCCESS ANIMATION */
+    .success-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .success-card {
+      background: white;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-strong);
+      overflow: hidden;
+      text-align: center;
+    }
+
+    .success-header {
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+      padding: 50px 30px;
+      color: white;
+    }
+
+    .success-icon {
+      width: 100px;
+      height: 100px;
+      border-radius: 50%;
+      background: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin: 0 auto 25px;
+      animation: scaleIn 0.5s ease-out;
+    }
+
+    .success-icon i {
+      font-size: 3rem;
+      color: #28a745;
+    }
+
+    @keyframes scaleIn {
+      0% { transform: scale(0); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+
+    .success-header h1 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+      animation: fadeInUp 0.5s ease-out 0.2s both;
+    }
+
+    .success-header p {
+      opacity: 0.9;
+      font-size: 1rem;
+      animation: fadeInUp 0.5s ease-out 0.3s both;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .success-body {
+      padding: 40px 30px;
+    }
+
+    /* ORDER INFO */
+    .order-number-box {
+      background: linear-gradient(135deg, #f8f9ff, #f0f1ff);
+      border-radius: 15px;
+      padding: 25px;
+      margin-bottom: 30px;
+      border: 2px dashed var(--brand-primary);
+    }
+
+    .order-number-label {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 5px;
+    }
+
+    .order-number {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--brand-primary);
+      letter-spacing: 2px;
+    }
+
+    .copy-btn {
+      background: none;
+      border: none;
+      color: var(--brand-primary);
+      cursor: pointer;
+      margin-left: 10px;
+      font-size: 1rem;
+    }
+
+    .copy-btn:hover { color: var(--brand-secondary); }
+
+    /* ORDER DETAILS */
+    .order-details {
+      text-align: left;
+      margin-top: 30px;
+    }
+
+    .detail-section {
+      background: #f8f9ff;
+      border-radius: 15px;
+      padding: 20px;
+      margin-bottom: 20px;
+    }
+
+    .detail-section h3 {
+      font-size: 1rem;
+      font-weight: 700;
+      color: var(--text-dark);
+      margin-bottom: 15px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .detail-section h3 i {
+      width: 30px;
+      height: 30px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid #eee;
+    }
+
+    .detail-row:last-child { border-bottom: none; }
+
+    .detail-row .label {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+    }
+
+    .detail-row .value {
+      font-weight: 600;
+      color: var(--text-dark);
+      font-size: 0.9rem;
+    }
+
+    /* ORDER ITEMS */
+    .order-item {
+      display: flex;
+      gap: 15px;
+      padding: 15px 0;
+      border-bottom: 1px solid #eee;
+      align-items: center;
+    }
+
+    .order-item:last-child { border-bottom: none; }
+
+    .order-item-image {
+      width: 60px;
+      height: 60px;
+      border-radius: 10px;
+      object-fit: cover;
+    }
+
+    .order-item-details {
+      flex: 1;
+    }
+
+    .order-item-name {
+      font-weight: 600;
+      font-size: 0.95rem;
+      color: var(--text-dark);
+    }
+
+    .order-item-qty {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+    }
+
+    .order-item-price {
+      font-weight: 700;
+      color: var(--brand-primary);
+    }
+
+    /* TOTAL */
+    .order-total {
+      display: flex;
+      justify-content: space-between;
+      padding: 15px 0;
+      margin-top: 10px;
+      border-top: 2px solid var(--brand-primary);
+    }
+
+    .order-total .label {
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .order-total .value {
+      font-weight: 700;
+      font-size: 1.3rem;
+      color: var(--brand-primary);
+    }
+
+    /* ACTION BUTTONS */
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      margin-top: 30px;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .btn-continue {
+      padding: 14px 30px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+      color: white;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 10px 30px rgba(102,126,234,0.4);
+      transition: 0.2s;
+    }
+
+    .btn-continue:hover {
+      transform: translateY(-3px);
+      color: white;
+      box-shadow: 0 15px 40px rgba(102,126,234,0.5);
+    }
+
+    .btn-track {
+      padding: 14px 30px;
+      border-radius: 999px;
+      background: white;
+      color: var(--brand-primary);
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      border: 2px solid var(--brand-primary);
+      transition: 0.2s;
+    }
+
+    .btn-track:hover {
+      background: var(--brand-primary);
+      color: white;
+    }
+
+    /* INFO CARDS */
+    .info-cards {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-top: 30px;
+    }
+
+    .info-card {
+      background: white;
+      border-radius: 12px;
+      padding: 20px 15px;
+      text-align: center;
+      box-shadow: var(--shadow-soft);
+    }
+
+    .info-card i {
+      font-size: 1.5rem;
+      color: var(--brand-primary);
+      margin-bottom: 10px;
+    }
+
+    .info-card h4 {
+      font-size: 0.85rem;
+      font-weight: 600;
+      margin-bottom: 5px;
+    }
+
+    .info-card p {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      margin: 0;
+    }
+
+    /* CONFETTI */
+    .confetti {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 1000;
+    }
+
+    .confetti-piece {
+      position: absolute;
+      width: 10px;
+      height: 10px;
+      top: -10px;
+      animation: confettiFall 3s ease-out forwards;
+    }
+
+    @keyframes confettiFall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+      }
+    }
+
+    .spinner-container {
+      text-align: center;
+      padding: 100px;
+    }
+
+    .error-state {
+      text-align: center;
+      padding: 60px;
+    }
+
+    .error-state i {
+      font-size: 4rem;
+      color: #ddd;
+      margin-bottom: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .info-cards {
+        grid-template-columns: 1fr;
+      }
+      .order-number {
+        font-size: 1.4rem;
+      }
+      .success-header h1 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">AASHVI</a>
+    </div>
+  </nav>
+
+  <!-- CONFETTI -->
+  <div class="confetti" id="confetti"></div>
+
+  <!-- SUCCESS CONTAINER -->
+  <div class="success-container">
+    <div id="pageContent">
+      <div class="spinner-container">
+        <div class="spinner-border text-primary" style="width:3rem;height:3rem;"></div>
+        <p class="mt-3 text-muted">Loading order details...</p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const API_URL = "http://localhost:5000/api";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      createConfetti();
+      loadOrderDetails();
+    });
+
+    // CREATE CONFETTI
+    function createConfetti() {
+      const confettiContainer = document.getElementById("confetti");
+      const colors = ['#667eea', '#764ba2', '#ffb400', '#ff3366', '#28a745', '#17a2b8'];
+
+      for (let i = 0; i < 50; i++) {
+        const piece = document.createElement("div");
+        piece.className = "confetti-piece";
+        piece.style.left = Math.random() * 100 + "%";
+        piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.animationDelay = Math.random() * 2 + "s";
+        piece.style.borderRadius = Math.random() > 0.5 ? "50%" : "0";
+        confettiContainer.appendChild(piece);
+      }
+
+      // Remove confetti after animation
+      setTimeout(() => {
+        confettiContainer.innerHTML = "";
+      }, 5000);
+    }
+
+    // GET ORDER NUMBER FROM URL
+    function getOrderNumber() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get("order");
+    }
+
+    function getImageUrl(img) {
+      if (!img) return "https://via.placeholder.com/60x60?text=Item";
+      if (img.startsWith("http") || img.startsWith("data:")) return img;
+      return `http://localhost:5000/${img}`;
+    }
+
+    // LOAD ORDER DETAILS
+    async function loadOrderDetails() {
+      const orderNumber = getOrderNumber();
+      const container = document.getElementById("pageContent");
+
+      if (!orderNumber) {
+        container.innerHTML = `
+          <div class="success-card">
+            <div class="error-state">
+              <i class="fas fa-exclamation-circle"></i>
+              <h3>No order found</h3>
+              <p>Please check your order number or continue shopping.</p>
+              <a href="index.html" class="btn-continue mt-3">
+                <i class="fas fa-home"></i> Go to Home
+              </a>
+            </div>
+          </div>
+        `;
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_URL}/orders/${orderNumber}`);
+        const data = await res.json();
+
+        if (!data.success || !data.order) {
+          throw new Error("Order not found");
+        }
+
+        renderOrderConfirmation(data.order);
+
+      } catch (err) {
+        console.error(err);
+        // Even if API fails, show success with order number
+        renderBasicConfirmation(orderNumber);
+      }
+    }
+
+    // RENDER ORDER CONFIRMATION
+    function renderOrderConfirmation(order) {
+      const container = document.getElementById("pageContent");
+      const orderDate = new Date(order.createdAt).toLocaleDateString('en-IN', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit'
+      });
+
+      container.innerHTML = `
+        <div class="success-card">
+          <div class="success-header">
+            <div class="success-icon">
+              <i class="fas fa-check"></i>
+            </div>
+            <h1>Order Confirmed!</h1>
+            <p>Thank you for shopping with AASHVI. Your order has been placed successfully.</p>
+          </div>
+
+          <div class="success-body">
+            <!-- Order Number -->
+            <div class="order-number-box">
+              <div class="order-number-label">Order Number</div>
+              <div class="order-number">
+                ${order.orderNumber}
+                <button class="copy-btn" onclick="copyOrderNumber('${order.orderNumber}')" title="Copy">
+                  <i class="fas fa-copy"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Order Details -->
+            <div class="order-details">
+              <!-- Shipping Info -->
+              <div class="detail-section">
+                <h3><i class="fas fa-truck"></i> Shipping Details</h3>
+                <div class="detail-row">
+                  <span class="label">Name</span>
+                  <span class="value">${order.fullName || 'N/A'}</span>
+                </div>
+                <div class="detail-row">
+                  <span class="label">Phone</span>
+                  <span class="value">${order.phone || 'N/A'}</span>
+                </div>
+                <div class="detail-row">
+                  <span class="label">Email</span>
+                  <span class="value">${order.email || 'N/A'}</span>
+                </div>
+                <div class="detail-row">
+                  <span class="label">Address</span>
+                  <span class="value">${order.address || ''}, ${order.city || ''}, ${order.state || ''} - ${order.pincode || ''}</span>
+                </div>
+              </div>
+
+              <!-- Order Items -->
+              <div class="detail-section">
+                <h3><i class="fas fa-shopping-bag"></i> Order Items</h3>
+                ${order.items && order.items.length > 0 ? order.items.map(item => `
+                  <div class="order-item">
+                    <img src="${getImageUrl(item.image)}" class="order-item-image" alt="${item.name}"
+                         onerror="this.src='https://via.placeholder.com/60x60?text=Item'">
+                    <div class="order-item-details">
+                      <div class="order-item-name">${item.name}</div>
+                      <div class="order-item-qty">Qty: ${item.quantity}</div>
+                    </div>
+                    <div class="order-item-price">₹${(item.price * item.quantity).toLocaleString()}</div>
+                  </div>
+                `).join('') : '<p class="text-muted">No items found</p>'}
+
+                <div class="order-total">
+                  <span class="label">Total Paid</span>
+                  <span class="value">₹${order.total ? order.total.toLocaleString() : '0'}</span>
+                </div>
+              </div>
+
+              <!-- Payment Info -->
+              <div class="detail-section">
+                <h3><i class="fas fa-credit-card"></i> Payment Information</h3>
+                <div class="detail-row">
+                  <span class="label">Payment ID</span>
+                  <span class="value">${order.paymentId || 'N/A'}</span>
+                </div>
+                <div class="detail-row">
+                  <span class="label">Status</span>
+                  <span class="value" style="color: #28a745;"><i class="fas fa-check-circle"></i> Paid</span>
+                </div>
+                <div class="detail-row">
+                  <span class="label">Order Date</span>
+                  <span class="value">${orderDate}</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Info Cards -->
+            <div class="info-cards">
+              <div class="info-card">
+                <i class="fas fa-envelope"></i>
+                <h4>Confirmation Email</h4>
+                <p>Order details sent to your email</p>
+              </div>
+              <div class="info-card">
+                <i class="fas fa-truck"></i>
+                <h4>Estimated Delivery</h4>
+                <p>5-7 business days</p>
+              </div>
+              <div class="info-card">
+                <i class="fas fa-headset"></i>
+                <h4>Need Help?</h4>
+                <p>Contact our support team</p>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+              <a href="index.html" class="btn-continue">
+                <i class="fas fa-shopping-bag"></i> Continue Shopping
+              </a>
+              <a href="#" class="btn-track" onclick="alert('Order tracking coming soon!')">
+                <i class="fas fa-map-marker-alt"></i> Track Order
+              </a>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // RENDER BASIC CONFIRMATION (if API fails)
+    function renderBasicConfirmation(orderNumber) {
+      const container = document.getElementById("pageContent");
+
+      container.innerHTML = `
+        <div class="success-card">
+          <div class="success-header">
+            <div class="success-icon">
+              <i class="fas fa-check"></i>
+            </div>
+            <h1>Order Confirmed!</h1>
+            <p>Thank you for shopping with AASHVI. Your order has been placed successfully.</p>
+          </div>
+
+          <div class="success-body">
+            <!-- Order Number -->
+            <div class="order-number-box">
+              <div class="order-number-label">Order Number</div>
+              <div class="order-number">
+                ${orderNumber}
+                <button class="copy-btn" onclick="copyOrderNumber('${orderNumber}')" title="Copy">
+                  <i class="fas fa-copy"></i>
+                </button>
+              </div>
+            </div>
+
+            <p class="text-muted mb-4">
+              <i class="fas fa-info-circle"></i>
+              A confirmation email has been sent with your order details.
+            </p>
+
+            <!-- Info Cards -->
+            <div class="info-cards">
+              <div class="info-card">
+                <i class="fas fa-envelope"></i>
+                <h4>Confirmation Email</h4>
+                <p>Check your inbox for details</p>
+              </div>
+              <div class="info-card">
+                <i class="fas fa-truck"></i>
+                <h4>Estimated Delivery</h4>
+                <p>5-7 business days</p>
+              </div>
+              <div class="info-card">
+                <i class="fas fa-headset"></i>
+                <h4>Need Help?</h4>
+                <p>Contact our support team</p>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="action-buttons">
+              <a href="index.html" class="btn-continue">
+                <i class="fas fa-shopping-bag"></i> Continue Shopping
+              </a>
+              <a href="#" class="btn-track" onclick="alert('Order tracking coming soon!')">
+                <i class="fas fa-map-marker-alt"></i> Track Order
+              </a>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // COPY ORDER NUMBER
+    function copyOrderNumber(orderNumber) {
+      navigator.clipboard.writeText(orderNumber).then(() => {
+        alert("Order number copied to clipboard!");
+      }).catch(() => {
+        // Fallback
+        const input = document.createElement("input");
+        input.value = orderNumber;
+        document.body.appendChild(input);
+        input.select();
+        document.execCommand("copy");
+        document.body.removeChild(input);
+        alert("Order number copied!");
+      });
+    }
+  </script>
+
+</body>
+</html>

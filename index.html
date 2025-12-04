@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AASHVI | Luxury Fashion Store</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --brand-primary: #667eea;
+      --brand-secondary: #764ba2;
+      --brand-dark: #181623;
+      --brand-accent: #ffb400;
+      --text-dark: #222;
+      --text-muted: #777;
+      --radius-lg: 18px;
+      --shadow-soft: 0 10px 30px rgba(0,0,0,0.08);
+      --shadow-strong: 0 18px 45px rgba(0,0,0,0.18);
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(180deg, #f1f2ff 0%, #fff 45%, #f9f4ff 100%);
+      color: var(--text-dark);
+    }
+
+    a { text-decoration: none; }
+
+    /* NAVBAR */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      background: rgba(255,255,255,0.95);
+      backdrop-filter: blur(14px);
+      box-shadow: 0 4px 18px rgba(0,0,0,0.08);
+    }
+
+    .navbar-brand {
+      font-weight: 700;
+      font-size: 1.4rem;
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .nav-link {
+      font-weight: 500;
+      color: #555 !important;
+      padding: 0.5rem 1.1rem !important;
+      transition: color 0.25s;
+    }
+
+    .nav-link:hover, .nav-link.active { color: var(--brand-primary) !important; }
+
+    .nav-cta-btn {
+      border-radius: 999px;
+      padding: 0.45rem 1.4rem;
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+      color: #fff !important;
+      border: none;
+      font-weight: 600;
+      box-shadow: 0 8px 24px rgba(102,126,234,0.35);
+    }
+
+    .nav-icon-btn {
+      position: relative;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      border: 1px solid rgba(102,126,234,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      background: #fff;
+    }
+
+    .nav-icon-btn i { color: var(--brand-primary); }
+
+    .nav-icon-badge {
+      position: absolute;
+      top: -3px;
+      right: -2px;
+      background: #ff3366;
+      color: #fff;
+      border-radius: 50%;
+      font-size: 10px;
+      padding: 2px 6px;
+      font-weight: 600;
+    }
+
+    .user-menu {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: #f8f9ff;
+      cursor: pointer;
+    }
+
+    .user-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      font-weight: 600;
+      font-size: 0.85rem;
+    }
+
+    /* CAROUSEL */
+    #heroCarousel { margin-top: 12px; }
+
+    #heroCarousel .carousel-inner {
+      border-radius: 28px;
+      overflow: hidden;
+      box-shadow: var(--shadow-strong);
+      max-height: 480px;
+    }
+
+    #heroCarousel .carousel-item img {
+      width: 100%;
+      height: 480px;
+      object-fit: cover;
+    }
+
+    #heroCarousel .hero-overlay {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(120deg, rgba(16,12,40,0.88) 0%, rgba(16,12,40,0.35) 55%, transparent 100%);
+    }
+
+    #heroCarousel .carousel-caption {
+      position: absolute;
+      top: 50%;
+      left: 7%;
+      transform: translateY(-50%);
+      text-align: left;
+      max-width: 480px;
+    }
+
+    .hero-tag {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 12px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.12);
+      color: #fff;
+      font-size: 0.8rem;
+      margin-bottom: 12px;
+    }
+
+    .hero-tag i { color: var(--brand-accent); }
+
+    .hero-title {
+      font-size: 2.4rem;
+      font-weight: 700;
+      color: #fff;
+      text-shadow: 0 4px 18px rgba(0,0,0,0.55);
+    }
+
+    .hero-subtitle {
+      font-size: 1rem;
+      color: #f3f3ff;
+      margin-top: 8px;
+      margin-bottom: 18px;
+    }
+
+    .btn-hero-primary {
+      border-radius: 999px;
+      padding: 0.6rem 1.6rem;
+      font-weight: 600;
+      border: none;
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+      color: #fff;
+      box-shadow: 0 10px 26px rgba(102,126,234,0.5);
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-hero-ghost {
+      border-radius: 999px;
+      padding: 0.55rem 1.2rem;
+      background: rgba(255,255,255,0.1);
+      border: 1px solid rgba(255,255,255,0.45);
+      color: #fff;
+      font-weight: 500;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .carousel-indicators [data-bs-target] {
+      width: 10px;
+      height: 10px;
+      border-radius: 50%;
+      background: #ddd;
+    }
+
+    .carousel-indicators .active {
+      width: 26px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--brand-primary), var(--brand-secondary));
+    }
+
+    /* SECTION */
+    .section-title { text-align: center; margin: 4rem 0 2.5rem; }
+
+    .section-kicker {
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: var(--brand-primary);
+    }
+
+    .section-title h2 {
+      font-weight: 700;
+      font-size: 1.8rem;
+      position: relative;
+      display: inline-block;
+      padding-bottom: 0.45rem;
+    }
+
+    .section-title h2::after {
+      content: '';
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      bottom: 0;
+      width: 70px;
+      height: 3px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--brand-primary), var(--brand-secondary));
+    }
+
+    .section-subtitle {
+      font-size: 0.9rem;
+      color: var(--text-muted);
+      max-width: 480px;
+      margin: 0.8rem auto 0;
+    }
+
+    /* CATEGORY CARDS */
+    .category-card {
+      position: relative;
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      min-height: 220px;
+      background: #111;
+      box-shadow: var(--shadow-soft);
+      transition: 0.25s;
+    }
+
+    .category-card img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: 0.4s;
+    }
+
+    .category-gradient {
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(145deg, rgba(5,2,15,0.92) 0%, rgba(5,2,15,0.45) 48%, transparent 100%);
+    }
+
+    .category-content {
+      position: absolute;
+      bottom: 18px;
+      left: 18px;
+      right: 18px;
+      color: #fff;
+    }
+
+    .category-chip {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.16);
+      margin-bottom: 6px;
+    }
+
+    .category-chip i { color: var(--brand-accent); }
+    .category-name { font-size: 1.05rem; font-weight: 600; }
+
+    .category-cta {
+      margin-top: 4px;
+      font-size: 0.85rem;
+      color: #f6f4ff;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .category-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-strong); }
+    .category-card:hover img { transform: scale(1.07); }
+
+    /* PRODUCT CARDS */
+    .product-card {
+      border-radius: var(--radius-lg);
+      overflow: hidden;
+      background: #fff;
+      box-shadow: var(--shadow-soft);
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      transition: 0.22s;
+    }
+
+    .product-card:hover { transform: translateY(-7px); box-shadow: var(--shadow-strong); }
+
+    .product-image-wrapper {
+      position: relative;
+      overflow: hidden;
+    }
+
+    .product-image-wrapper img {
+      width: 100%;
+      height: 260px;
+      object-fit: cover;
+      transition: 0.4s;
+    }
+
+    .product-card:hover .product-image-wrapper img { transform: scale(1.08); }
+
+    .product-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      border-radius: 999px;
+      padding: 4px 10px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: #fff;
+      background: linear-gradient(135deg, #ff3366, #ff8a3d);
+    }
+
+    .product-badge-secondary {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      border-radius: 999px;
+      padding: 3px 8px;
+      font-size: 0.7rem;
+      color: #fff;
+      background: rgba(25,20,56,0.82);
+    }
+
+    .product-body { padding: 14px; display: flex; flex-direction: column; flex: 1; }
+
+    .product-title { font-size: 0.98rem; font-weight: 600; margin-bottom: 6px; }
+    .product-title a { color: #222; }
+    .product-title a:hover { color: var(--brand-primary); }
+
+    .product-meta { display: flex; align-items: center; justify-content: space-between; margin-bottom: 6px; }
+    .product-price { font-size: 1.15rem; font-weight: 700; color: var(--brand-secondary); }
+
+    .product-category-pill {
+      font-size: 0.7rem;
+      padding: 4px 9px;
+      border-radius: 999px;
+      background: #f1f2ff;
+      color: var(--brand-primary);
+    }
+
+    .product-rating { font-size: 0.8rem; color: #f6a800; margin-bottom: 6px; }
+    .product-rating .muted { color: var(--text-muted); font-size: 0.7rem; }
+
+    .product-footer { display: flex; align-items: center; justify-content: space-between; margin-top: auto; }
+
+    .btn-add-cart {
+      border-radius: 999px;
+      padding: 6px 12px;
+      border: none;
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+      color: #fff;
+      font-size: 0.8rem;
+      font-weight: 500;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(102,126,234,0.45);
+    }
+
+    .btn-view-details { font-size: 0.8rem; color: var(--brand-primary); }
+
+    /* FEATURES */
+    .features-strip {
+      margin: 2.5rem auto 0;
+      max-width: 1100px;
+      padding: 1.1rem 1.3rem;
+      border-radius: 999px;
+      background: #fff;
+      box-shadow: 0 12px 32px rgba(0,0,0,0.06);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 30px;
+      justify-content: center;
+      font-size: 0.85rem;
+    }
+
+    .features-strip span { display: inline-flex; align-items: center; gap: 8px; color: var(--text-muted); }
+    .features-strip i { color: var(--brand-primary); }
+
+    /* FOOTER */
+    .footer {
+      background: var(--brand-dark);
+      color: #f8f5ff;
+      padding: 3.5rem 0 2.2rem;
+      margin-top: 2rem;
+    }
+
+    .footer-brand { font-weight: 700; font-size: 1.4rem; }
+    .footer-brand span { color: var(--brand-accent); }
+    .footer-text { font-size: 0.85rem; color: #d5d1ff; max-width: 260px; }
+    .footer-title { font-size: 0.9rem; font-weight: 600; margin-bottom: 0.75rem; text-transform: uppercase; color: #eae7ff; }
+    .footer-link { font-size: 0.85rem; color: #c7c3ff; display: block; margin-bottom: 0.35rem; }
+    .footer-link:hover { color: var(--brand-accent); }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.12); margin-top: 2rem; padding-top: 1rem; font-size: 0.8rem; color: #a9a4e8; text-align: center; }
+
+    /* UTILITIES */
+    .spinner-container { text-align: center; padding: 50px 0; }
+    .empty-state { text-align: center; padding: 40px 0; color: var(--text-muted); }
+    .empty-state i { font-size: 2.4rem; color: #ddd; margin-bottom: 10px; display: block; }
+
+    .toast-box { position: fixed; right: 20px; bottom: 20px; z-index: 9999; }
+
+    .toast-inner {
+      border-radius: 999px;
+      padding: 10px 14px;
+      background: #111827;
+      color: #f9fafb;
+      font-size: 0.82rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.45);
+    }
+
+    .toast-inner i { color: #22c55e; }
+
+    #backToTop {
+      position: fixed;
+      bottom: 24px;
+      left: 24px;
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--brand-primary), var(--brand-secondary));
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border: none;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: 0.22s;
+      z-index: 999;
+    }
+
+    #backToTop.show { opacity: 1; pointer-events: auto; }
+
+    @media (max-width: 768px) {
+      #heroCarousel .carousel-inner { max-height: 360px; }
+      #heroCarousel .carousel-item img { height: 360px; }
+      .hero-title { font-size: 1.7rem; }
+      .category-card { min-height: 190px; }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAVBAR -->
+  <nav class="navbar navbar-expand-lg">
+    <div class="container">
+      <a class="navbar-brand" href="index.html">AASHVI</a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav ms-3 me-auto">
+          <li class="nav-item"><a class="nav-link active" href="index.html">Home</a></li>
+          <li class="nav-item"><a class="nav-link" href="product.html">All Products</a></li>
+          <li class="nav-item"><a class="nav-link" href="category.html">Categories</a></li>
+        </ul>
+
+        <div class="d-flex align-items-center">
+          <div class="nav-icon-btn me-2" onclick="window.location.href='cart.html'">
+            <i class="fa-solid fa-bag-shopping"></i>
+            <span class="nav-icon-badge" id="cartCountBadge">0</span>
+          </div>
+          <div id="authSection"></div>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO CAROUSEL -->
+  <section class="container mt-3">
+    <div id="heroCarousel" class="carousel slide" data-bs-ride="carousel" data-bs-interval="5000">
+      <div class="carousel-indicators" id="heroIndicators"></div>
+      <div class="carousel-inner" id="heroInner">
+        <div class="spinner-container">
+          <div class="spinner-border text-primary"></div>
+          <p class="mt-3">Loading...</p>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#heroCarousel" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon"></span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#heroCarousel" data-bs-slide="next">
+        <span class="carousel-control-next-icon"></span>
+      </button>
+    </div>
+  </section>
+
+  <!-- SHOP BY CATEGORY -->
+  <section class="mt-4">
+    <div class="section-title">
+      <div class="section-kicker">Explore by category</div>
+      <h2>Shop by Category</h2>
+      <p class="section-subtitle">Sarees, kurtis, lehengas and more — curated for every occasion.</p>
+    </div>
+    <div class="container" id="categoryGrid">
+      <div class="spinner-container">
+        <div class="spinner-border text-primary"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FEATURED PRODUCTS -->
+  <section class="mt-4 pb-5">
+    <div class="section-title">
+      <div class="section-kicker">Just in</div>
+      <h2>Featured & New Arrivals</h2>
+      <p class="section-subtitle">Handpicked pieces loved by our customers.</p>
+    </div>
+    <div class="container">
+      <div id="productGrid">
+        <div class="spinner-container">
+          <div class="spinner-border text-primary"></div>
+        </div>
+      </div>
+      <div class="text-center mt-4">
+        <a href="product.html" class="btn btn-outline-primary rounded-pill px-4">View all products</a>
+      </div>
+      <div class="features-strip mt-5">
+        <span><i class="fa-solid fa-truck-fast"></i> Free delivery above ₹999</span>
+        <span><i class="fa-solid fa-shield"></i> Secure Razorpay payments</span>
+        <span><i class="fa-solid fa-rotate-left"></i> Easy 7-day returns</span>
+        <span><i class="fa-solid fa-headset"></i> WhatsApp support</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer">
+    <div class="container">
+      <div class="row g-4">
+        <div class="col-lg-4 col-md-6">
+          <div class="footer-brand">AASHVI<span>.</span></div>
+          <p class="footer-text">A modern Indian fashion house bringing premium designs and timeless silhouettes.</p>
+        </div>
+        <div class="col-lg-2 col-md-6 col-6">
+          <div class="footer-title">Shop</div>
+          <a href="product.html" class="footer-link">All Products</a>
+          <a href="category.html" class="footer-link">Categories</a>
+          <a href="#" class="footer-link">Offers</a>
+        </div>
+        <div class="col-lg-3 col-md-6 col-6">
+          <div class="footer-title">Support</div>
+          <a href="#" class="footer-link">Help & FAQs</a>
+          <a href="#" class="footer-link">Shipping</a>
+          <a href="#" class="footer-link">Returns</a>
+        </div>
+        <div class="col-lg-3 col-md-6">
+          <div class="footer-title">Legal</div>
+          <a href="#" class="footer-link">Terms & Conditions</a>
+          <a href="#" class="footer-link">Privacy Policy</a>
+          <a href="#" class="footer-link">Refund Policy</a>
+        </div>
+      </div>
+      <div class="footer-bottom">© <span id="yearSpan"></span> AASHVI Fashion. All rights reserved.</div>
+    </div>
+  </footer>
+
+  <button id="backToTop"><i class="fa-solid fa-arrow-up"></i></button>
+  <div class="toast-box" id="toastBox" style="display:none;"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+  <script>
+    const API_URL = "http://localhost:5000/api";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      document.getElementById("yearSpan").textContent = new Date().getFullYear();
+      initUserId();
+      loadCarousel();
+      loadCategories();
+      loadProducts();
+      updateCartBadge();
+      setupBackToTop();
+      updateAuthSection();
+    });
+
+    function initUserId() {
+      if (!localStorage.getItem("userId")) {
+        localStorage.setItem("userId", "guest_" + Date.now());
+      }
+    }
+
+    function updateAuthSection() {
+      const section = document.getElementById("authSection");
+      const isLoggedIn = localStorage.getItem("loggedIn") === "true";
+      const userName = localStorage.getItem("userName") || "User";
+
+      if (isLoggedIn) {
+        const initials = userName.split(' ').map(n => n[0]).join('').toUpperCase().slice(0,2);
+        section.innerHTML = `
+          <div class="user-menu dropdown">
+            <div class="d-flex align-items-center" data-bs-toggle="dropdown">
+              <div class="user-avatar">${initials}</div>
+              <span class="ms-2 d-none d-lg-inline">${userName.split(' ')[0]}</span>
+              <i class="fas fa-chevron-down ms-2" style="font-size:0.7rem;"></i>
+            </div>
+            <ul class="dropdown-menu dropdown-menu-end">
+              <li><a class="dropdown-item" href="#"><i class="fas fa-user me-2"></i>Profile</a></li>
+              <li><a class="dropdown-item" href="#"><i class="fas fa-box me-2"></i>My Orders</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#" onclick="logout()"><i class="fas fa-sign-out-alt me-2"></i>Logout</a></li>
+            </ul>
+          </div>
+        `;
+      } else {
+        section.innerHTML = `<button class="nav-cta-btn" onclick="window.location.href='login.html'">Sign in</button>`;
+      }
+    }
+
+    function logout() {
+      localStorage.removeItem("loggedIn");
+      localStorage.removeItem("userName");
+      localStorage.removeItem("userEmail");
+      window.location.reload();
+    }
+
+    function showToast(msg) {
+      const box = document.getElementById("toastBox");
+      box.innerHTML = `<div class="toast-inner"><i class="fa-solid fa-circle-check"></i><span>${msg}</span></div>`;
+      box.style.display = "block";
+      setTimeout(() => box.style.display = "none", 2200);
+    }
+
+    function setupBackToTop() {
+      const btn = document.getElementById("backToTop");
+      window.addEventListener("scroll", () => btn.classList.toggle("show", window.scrollY > 320));
+      btn.addEventListener("click", () => window.scrollTo({ top: 0, behavior: "smooth" }));
+    }
+
+    function getImageUrl(img) {
+      if (!img) return "https://via.placeholder.com/400x400?text=No+Image";
+      if (img.startsWith("http") || img.startsWith("data:")) return img;
+      return `http://localhost:5000/${img}`;
+    }
+
+    // CAROUSEL
+    async function loadCarousel() {
+      const indicators = document.getElementById("heroIndicators");
+      const inner = document.getElementById("heroInner");
+
+      try {
+        const res = await fetch(`${API_URL}/carousel`);
+        const data = await res.json();
+
+        if (!data.success || !data.slides || data.slides.length === 0) {
+          inner.innerHTML = `<div class="empty-state"><i class="fas fa-images"></i><h5>No banners yet</h5><p>Add slides in admin panel.</p></div>`;
+          return;
+        }
+
+        indicators.innerHTML = data.slides.map((_, i) => `
+          <button type="button" data-bs-target="#heroCarousel" data-bs-slide-to="${i}" ${i === 0 ? 'class="active"' : ''}></button>
+        `).join('');
+
+        inner.innerHTML = data.slides.map((s, i) => `
+          <div class="carousel-item ${i === 0 ? 'active' : ''}">
+            <img src="${getImageUrl(s.image)}" alt="${s.title || 'Slide'}" onerror="this.src='https://via.placeholder.com/1200x480?text=AASHVI'">
+            <div class="hero-overlay"></div>
+            <div class="carousel-caption">
+              <div class="hero-tag"><i class="fa-solid fa-sparkles"></i> Curated for you</div>
+              <h2 class="hero-title">${s.title || 'New Collection'}</h2>
+              <p class="hero-subtitle">${s.subtitle || 'Discover premium ethnic & western wear.'}</p>
+              <div class="d-flex gap-2 flex-wrap">
+                <a href="${s.buttonLink || 'product.html'}" class="btn-hero-primary">${s.buttonText || 'Shop Now'} <i class="fa-solid fa-arrow-right"></i></a>
+                <a href="category.html" class="btn-hero-ghost">Browse categories</a>
+              </div>
+            </div>
+          </div>
+        `).join('');
+      } catch (err) {
+        console.error(err);
+        inner.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h5>Error loading banners</h5><p>Make sure server is running.</p></div>`;
+      }
+    }
+
+    // CATEGORIES
+    async function loadCategories() {
+      const grid = document.getElementById("categoryGrid");
+
+      try {
+        const res = await fetch(`${API_URL}/categories`);
+        const data = await res.json();
+
+        if (!data.success || !data.categories || data.categories.length === 0) {
+          grid.innerHTML = `<div class="empty-state"><i class="fas fa-th-large"></i><h5>No categories yet</h5></div>`;
+          return;
+        }
+
+        grid.innerHTML = `<div class="row g-4">${data.categories.map(c => `
+          <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
+            <a href="category.html?category=${encodeURIComponent(c.name)}">
+              <div class="category-card">
+                <img src="${getImageUrl(c.image)}" alt="${c.name}" onerror="this.src='https://via.placeholder.com/600x400?text=Category'">
+                <div class="category-gradient"></div>
+                <div class="category-content">
+                  <div class="category-chip"><i class="fa-solid fa-wand-magic-sparkles"></i> Curated picks</div>
+                  <div class="category-name">${c.name}</div>
+                  <div class="category-cta">View all <i class="fa-solid fa-arrow-right"></i></div>
+                </div>
+              </div>
+            </a>
+          </div>
+        `).join('')}</div>`;
+      } catch (err) {
+        console.error(err);
+        grid.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h5>Error loading categories</h5></div>`;
+      }
+    }
+
+    // PRODUCTS
+    async function loadProducts() {
+      const grid = document.getElementById("productGrid");
+
+      try {
+        const res = await fetch(`${API_URL}/products`);
+        const data = await res.json();
+
+        if (!data.success || !data.products || data.products.length === 0) {
+          grid.innerHTML = `<div class="empty-state"><i class="fas fa-box-open"></i><h5>No products yet</h5></div>`;
+          return;
+        }
+
+        let list = data.products;
+        const featured = list.filter(p => p.isFeatured);
+        const newOnes = list.filter(p => p.isNew && !p.isFeatured);
+        let combined = [...featured, ...newOnes];
+        if (combined.length === 0) combined = list.slice(0, 8);
+        else combined = combined.slice(0, 8);
+
+        grid.innerHTML = `<div class="row g-4">${combined.map(p => renderProductCard(p)).join('')}</div>`;
+      } catch (err) {
+        console.error(err);
+        grid.innerHTML = `<div class="empty-state"><i class="fas fa-exclamation-triangle"></i><h5>Error loading products</h5></div>`;
+      }
+    }
+
+    function renderProductCard(p) {
+      const rating = (p.rating || 4).toFixed(1);
+      const safeName = (p.name || '').replace(/'/g, "\\'");
+      const safeImage = getImageUrl(p.image).replace(/'/g, "\\'");
+
+      return `
+        <div class="col-xl-3 col-lg-4 col-md-4 col-sm-6">
+          <div class="product-card">
+            <div class="product-image-wrapper">
+              <a href="product_detail.html?id=${p.id}">
+                <img src="${getImageUrl(p.image)}" alt="${p.name}" onerror="this.src='https://via.placeholder.com/600x400?text=Product'">
+              </a>
+              ${p.isNew ? '<div class="product-badge">New</div>' : ''}
+              ${p.isFeatured ? '<div class="product-badge-secondary">Featured</div>' : ''}
+            </div>
+            <div class="product-body">
+              <h3 class="product-title"><a href="product_detail.html?id=${p.id}">${p.name}</a></h3>
+              <div class="product-meta">
+                <div class="product-price">₹${p.price}</div>
+                <span class="product-category-pill">${p.category || 'Fashion'}</span>
+              </div>
+              <div class="product-rating"><i class="fa-solid fa-star"></i> ${rating} <span class="muted">/ 5.0</span></div>
+              <div class="product-footer">
+                <button class="btn-add-cart" onclick="addToCart('${p.id}', '${safeName}', ${p.price}, '${safeImage}')">
+                  <i class="fa-solid fa-cart-plus"></i> Add
+                </button>
+                <a href="product_detail.html?id=${p.id}" class="btn-view-details">Details <i class="fa-solid fa-arrow-right"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+      `;
+    }
+
+    // ADD TO CART
+    async function addToCart(productId, name, price, image) {
+      try {
+        const userId = localStorage.getItem("userId") || "guest";
+        const res = await fetch(`${API_URL}/cart/add`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ userId, productId, name, price, quantity: 1, image })
+        });
+        const data = await res.json();
+
+        if (data.success) {
+          const count = data.cart.reduce((s, i) => s + (i.quantity || 1), 0);
+          localStorage.setItem("cartCount", count);
+          updateCartBadge();
+          showToast(`${name} added to cart!`);
+        }
+      } catch (err) {
+        console.error(err);
+        alert("Error adding to cart");
+      }
+    }
+
+    // CART BADGE
+    async function updateCartBadge() {
+      const badge = document.getElementById("cartCountBadge");
+      const userId = localStorage.getItem("userId") || "guest";
+
+      try {
+        const res = await fetch(`${API_URL}/cart/${userId}`);
+        const data = await res.json();
+        if (data.success && data.cart) {
+          const count = data.cart.reduce((s, i) => s + (i.quantity || 1), 0);
+          badge.textContent = count > 9 ? "9+" : count;
+          localStorage.setItem("cartCount", count);
+        }
+      } catch (err) {
+        badge.textContent = localStorage.getItem("cartCount") || "0";
+      }
+    }
+  </script>
+</body>
+</html>

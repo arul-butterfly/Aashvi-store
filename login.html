@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login | AASHVI</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Inter', sans-serif; background: #0a0a0a; color: #fff; min-height: 100vh; }
+        .container { display: flex; min-height: 100vh; }
+        .left { flex: 1; padding: 80px 60px; display: flex; flex-direction: column; justify-content: center; max-width: 600px; }
+        .logo { font-size: 32px; font-weight: 700; color: #007bff; margin-bottom: 40px; }
+        .title { font-size: 48px; font-weight: 700; line-height: 1.2; background: linear-gradient(135deg, #fff, #007bff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .subtitle { margin-top: 15px; font-size: 18px; color: #aaa; }
+        .login-box { margin-top: 50px; background: rgba(255, 255, 255, 0.05); padding: 40px; border-radius: 20px; backdrop-filter: blur(10px); }
+        .error-message, .success-message { padding: 12px; border-radius: 8px; margin-bottom: 20px; display: none; font-size: 14px; }
+        .error-message { background: rgba(220, 53, 69, 0.1); color: #ff6b6b; border: 1px solid rgba(220, 53, 69, 0.3); }
+        .success-message { background: rgba(40, 167, 69, 0.1); color: #51cf66; border: 1px solid rgba(40, 167, 69, 0.3); }
+        label { display: block; margin-bottom: 8px; color: #ccc; font-size: 14px; font-weight: 600; }
+        input { width: 100%; padding: 14px; border-radius: 12px; border: 1px solid rgba(255, 255, 255, 0.1); background: rgba(255, 255, 255, 0.05); color: #fff; margin-bottom: 20px; transition: all 0.3s; }
+        input:focus { outline: none; border-color: #007bff; background: rgba(255, 255, 255, 0.08); }
+        input::placeholder { color: #666; }
+        .login-btn { width: 100%; padding: 14px; background: linear-gradient(135deg, #007bff, #0056b3); border: none; border-radius: 12px; color: white; font-weight: 600; cursor: pointer; transition: all 0.3s; font-size: 16px; }
+        .login-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(0, 123, 255, 0.3); }
+        .login-btn:disabled { opacity: 0.6; cursor: not-allowed; transform: none; }
+        .right { flex: 1; display: flex; justify-content: center; align-items: center; padding: 40px; }
+        .video-box { width: 90%; max-width: 600px; height: 600px; border-radius: 20px; overflow: hidden; box-shadow: 0 20px 60px rgba(0, 123, 255, 0.3); }
+        .video-box img { width: 100%; height: 100%; object-fit: cover; }
+        @media(max-width:968px) { .container { flex-direction: column; } .right { display: none; } .left { padding: 40px 30px; } }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="left">
+            <div class="logo">AASHVI</div>
+            <h1 class="title">Shop Smarter.<br>Shop Easier.</h1>
+            <p class="subtitle">Login to explore exclusive offers, track orders, and enjoy a personalized shopping experience.</p>
+            <div class="login-box">
+                <div class="error-message" id="errorMessage"></div>
+                <div class="success-message" id="successMessage"></div>
+                <form id="loginForm" onsubmit="loginUser(event)">
+                    <label><i class="fas fa-envelope"></i> Email Address</label>
+                    <input type="email" id="email" required placeholder="Enter your email">
+                    <label><i class="fas fa-lock"></i> Password</label>
+                    <input type="password" id="password" required placeholder="Enter your password">
+                    <button class="login-btn" id="loginBtn" type="submit">
+                        <i class="fas fa-sign-in-alt"></i> Sign In
+                    </button>
+                </form>
+                <p style="text-align:center;margin-top:15px;color:#aaa;font-size:14px;">
+                    Don't have an account? <a href="signup.html" style="color:#007bff;text-decoration:none;font-weight:600;">Sign up here</a>
+                </p>
+            </div>
+        </div>
+        <div class="right">
+            <div class="video-box">
+                <img src="./image/young-man-wearing-dark-shirt-jeans-carries-many-bags-go-shopping.jpg" alt="Shopping">
+            </div>
+        </div>
+    </div>
+    <script>
+        const API_URL = "http://localhost:5000/api";
+
+        async function loginUser(event) {
+            event.preventDefault();
+            const email = document.getElementById("email").value.trim();
+            const password = document.getElementById("password").value.trim();
+            const btn = document.getElementById("loginBtn");
+
+            if (!email || !password) {
+                showError('Please enter both email and password');
+                return;
+            }
+
+            btn.innerHTML = "<i class='fas fa-spinner fa-spin'></i> Signing in...";
+            btn.disabled = true;
+
+            try {
+                const res = await fetch(`${API_URL}/auth/login`, {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ email, password })
+                });
+                const data = await res.json();
+
+                if (data.success) {
+                    showSuccess('✓ Login successful! Redirecting...');
+                    localStorage.setItem("loggedIn", "true");
+                    localStorage.setItem("userName", data.user.name);
+                    localStorage.setItem("userEmail", data.user.email);
+                    if (data.user.userId) localStorage.setItem("userId", data.user.userId);
+                    setTimeout(() => { window.location.href = "index.html"; }, 1500);
+                } else {
+                    showError(data.message || 'Invalid email or password');
+                    btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
+                    btn.disabled = false;
+                }
+            } catch (err) {
+                console.error('Login error:', err);
+                showError("Unable to connect to server. Check if backend is running.");
+                btn.innerHTML = '<i class="fas fa-sign-in-alt"></i> Sign In';
+                btn.disabled = false;
+            }
+        }
+
+        function showError(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            const successDiv = document.getElementById('successMessage');
+            successDiv.style.display = 'none';
+            errorDiv.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + message;
+            errorDiv.style.display = 'block';
+            setTimeout(() => { errorDiv.style.display = 'none'; }, 5000);
+        }
+
+        function showSuccess(message) {
+            const errorDiv = document.getElementById('errorMessage');
+            const successDiv = document.getElementById('successMessage');
+            errorDiv.style.display = 'none';
+            successDiv.innerHTML = '<i class="fas fa-check-circle"></i> ' + message;
+            successDiv.style.display = 'block';
+        }
+
+        window.addEventListener('load', () => {
+            const isLoggedIn = localStorage.getItem('loggedIn');
+            if (isLoggedIn === 'true') window.location.href = 'index.html';
+        });
+    </script>
+</body>
+</html>
