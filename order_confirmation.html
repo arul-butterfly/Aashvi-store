@@ -425,7 +425,7 @@
   </div>
 
   <script>
-    const API_URL = "http://localhost:5000/api";
+    const API_URL = "https://aashvi-store.onrender.com/api";
 
     document.addEventListener("DOMContentLoaded", () => {
       createConfetti();
@@ -462,7 +462,7 @@
     function getImageUrl(img) {
       if (!img) return "https://via.placeholder.com/60x60?text=Item";
       if (img.startsWith("http") || img.startsWith("data:")) return img;
-      return `http://localhost:5000/${img}`;
+      return `https://aashvi-store.onrender.com/${img}`;
     }
 
     // LOAD ORDER DETAILS
